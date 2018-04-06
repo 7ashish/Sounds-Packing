@@ -26,14 +26,7 @@ namespace Sounds_Packing
                 }
                 reader.Close();
             }
-            Array.Sort(Line);       //O(nlogn) where n = Line.Count
-            foreach (Pair<string, TimeSpan> s in Line)
-            {
-                Console.WriteLine(s.First);
-                Console.WriteLine(s.Second.ToString());
-            }
-            List<List<string>> Folders_List = new List<List<string>>();
-            List<string> Files_List = new List<string>();
+            Algorithms.First_Fit_Decreasing_Algorithm(Line);
         }
     }
 
