@@ -26,7 +26,7 @@ namespace Sounds_Packing
                 }
                 reader.Close();
             }
-            Algorithms.First_Fit_Decreasing_Algorithm(Line);
+            Algorithms.First_Fit_Decreasing_Algorithm((Pair<string, TimeSpan>[])Line.Clone());
         }
     }
 
