@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Sounds_Packing
+public class Pair<F, S> : IComparable<Pair<F, S>> where S : IComparable
 {
-    class SmallContainers
+    public F First;
+    public S Second;
+    public int CompareTo(Pair<F, S> other)
     {
+        return Second.CompareTo(other.Second) * -1;
     }
 }
