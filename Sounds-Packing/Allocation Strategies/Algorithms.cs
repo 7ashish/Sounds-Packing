@@ -1,107 +1,93 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 static class Algorithms
 {
     static public void First_Fit_Decreasing_Algorithm(Pair<string, TimeSpan>[] Line)
     {
-        double TotalSecondsforeachFile = 100;
+        double FolderLength = 100;
         List<Pair<string, TimeSpan>> Temp = new List<Pair<string, TimeSpan>>();
         Array.Sort(Line);       //O(nlogn) where n = Line.Count
-        List<List<Pair<string, TimeSpan>>> Files_List = new List<List<Pair<string, TimeSpan>>>();
+        List<List<Pair<string, TimeSpan>>> FolderList = new List<List<Pair<string, TimeSpan>>>();
         int counter = 0;
-        List<double> seconds = new List<double>();
-        for (int i = 0; i < Line.Length; i++)
+        List<double> Seconds = new List<double>();
+        //n = FileCount, m = FolderCount
+        for (int i = 0; i < Line.Length; i++) // O(n * (n + m)) ~ O(n^2 + n*m)
         {
-            if (Files_List.Count == 0)
+            if (FolderList.Count == 0)  //O(n)
             {
                 Temp.Add(Line[i]);
-                Files_List.Add(Temp);
-                seconds.Add(Line[i].Second.TotalSeconds);
+                FolderList.Add(Temp);
+                Seconds.Add(Line[i].Second.TotalSeconds);
                 continue;
             }
-            if (TotalSecondsforeachFile == seconds[counter])
+            if (FolderLength == Seconds[counter]) //O(n)
             {
-                if (counter + 1 == Files_List.Count)
+                if (counter + 1 == FolderList.Count)
                 {
                     counter++;
                     Temp = new List<Pair<string, TimeSpan>>();
                     Temp.Add(Line[i]);
-                    Files_List.Add(Temp);
-                    seconds.Add(Line[i].Second.TotalSeconds);
+                    FolderList.Add(Temp);
+                    Seconds.Add(Line[i].Second.TotalSeconds);
                     continue;
                 }
             }
-            if ((seconds[counter] + Line[i].Second.TotalSeconds) <= TotalSecondsforeachFile)
+            if ((Seconds[counter] + Line[i].Second.TotalSeconds) <= FolderLength) //O(n)
             {
-                Files_List[counter].Add(Line[i]);
-                seconds[counter] += Line[i].Second.TotalSeconds;
-                if((seconds[counter] + Line[i].Second.TotalSeconds) == TotalSecondsforeachFile)
-                {
-                    counter++;
-                }
+                FolderList[counter].Add(Line[i]);
+                Seconds[counter] += Line[i].Second.TotalSeconds;
                 continue;
             }
-            if ((seconds[counter] + Line[i].Second.TotalSeconds) > TotalSecondsforeachFile)
+            if ((Seconds[counter] + Line[i].Second.TotalSeconds) > FolderLength) //O(n + m)
             {
-                if (counter + 1 == Files_List.Count)
+                if (counter + 1 == FolderList.Count)//O(n)
                 {
                     Temp = new List<Pair<string, TimeSpan>>();
                     Temp.Add(Line[i]);
-                    Files_List.Add(Temp);
-                    seconds.Add(Line[i].Second.TotalSeconds);
+                    FolderList.Add(Temp);
+                    Seconds.Add(Line[i].Second.TotalSeconds);
                     continue;
                 }
                 bool entered = false;
-                int t = 0;
-                for (int k =0; k < Files_List.Count; k++)
+                for (int k =0; k < FolderList.Count; k++) //O(m + n)
                 {
-                    if ((seconds[k] + Line[i].Second.TotalSeconds) < TotalSecondsforeachFile)
+                    if ((Seconds[k] + Line[i].Second.TotalSeconds) <= FolderLength) //O(n)
                     {
-                        Files_List[k].Add(Line[i]);
-                        seconds[k] += Line[i].Second.TotalSeconds;
+                        FolderList[k].Add(Line[i]);
+                        Seconds[k] += Line[i].Second.TotalSeconds;
                         entered = true;
                         break;
                     }
-                    if ((seconds[k] + Line[i].Second.TotalSeconds) == TotalSecondsforeachFile)
-                    {
-                        Files_List[k].Add(Line[i]);
-                        seconds[k] += Line[i].Second.TotalSeconds;
-                        entered = true;
-                        break;
-                    }
-                    t = k;
                 }
-                if (!entered)
+                if (!entered) //O(n)
                 {
-                    Temp[counter]=Line[i];
-                    Files_List.Add(Temp);
-                    seconds.Add(Line[i].Second.TotalSeconds);
+                    counter++;
+                    Temp = new List<Pair<string, TimeSpan>>();
+                    Temp.Add(Line[i]);
+                    FolderList.Add(Temp);
+                    Seconds.Add(Line[i].Second.TotalSeconds);
                     continue;
                 }
+                
             }
         }
-        string filepath = Directory.GetCurrentDirectory() + @"\sample 1\INPUT\Audios";
-        for (int i = 0; i < Files_List.Count; i++)
-        {
-            Directory.CreateDirectory("F"+@i);
-        }
+        FileOperations.FinializeDirectory(FolderList, @"Sample 3\INPUT\Audios");
     }
     static public void Best_Fit_Algorithm(Pair<string, TimeSpan>[] Line)
     {
-
+        throw new NotImplementedException();
     }
     static public void Best_Fit_Decreasing_Algorithm(Pair<string, TimeSpan>[] Line)
     {
-
+        throw new NotImplementedException();
     }
     static public void Worst_Fit_Algorithm(Pair<string, TimeSpan>[] Line)
     {
-
+        throw new NotImplementedException();
     }
     static public void Worst_Fit_Deacreasing_Algorithm(Pair<string, TimeSpan>[] Line)
     {
-
+        throw new NotImplementedException();
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 
 namespace Sounds_Packing
 {
@@ -9,7 +8,7 @@ namespace Sounds_Packing
         static void Main(string[] args)
         {
             Pair<string, TimeSpan>[] Line;
-            string folderPath = Directory.GetCurrentDirectory() + @"\sample 1\INPUT";
+            string folderPath = Directory.GetCurrentDirectory() + @"\Sample 3\INPUT";
             {
                 FileStream file = new FileStream(folderPath + @"\AudiosInfo.txt", FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(file);
