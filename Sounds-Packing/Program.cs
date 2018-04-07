@@ -7,6 +7,7 @@ namespace Sounds_Packing
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Yeah boiiiiiiiiiiiiiiiiiiiiiii");
             Pair<string, TimeSpan>[] Line;
             string folderPath = Directory.GetCurrentDirectory() + @"\Sample 3\INPUT";
             {
