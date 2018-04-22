@@ -5,8 +5,10 @@ using System.IO;
 
 static class FileOperations
 {
-    static public void FinializeDirectory(List<List<Pair<string, TimeSpan>>> FilesList, string FilePath)
+    static public string DefaultPath = "";
+    static public void FinializeDirectory(List<List<Pair<string, TimeSpan>>> FilesList)
     {
+        string FilePath = DefaultPath;
         for (int i = 0; i < FilesList.Count; i++)
         {
             string DirectoryPath = FilePath + @"\F" + (i + 1);
@@ -29,5 +31,56 @@ static class FileOperations
                 File.Move(SourcePath, DistPath);
             }
         }
+    }
+    static public void CleanUp(string FilePath)
+    {
+        foreach (string s in Directory.EnumerateFiles(FilePath))
+        {
+            if(s.Substring(s.Length - 3) == "mp3")
+            {
+                return;
+            }
+            File.Delete(s);
+        }
+        foreach (string s in Directory.EnumerateDirectories(FilePath))
+        {
+            foreach (string z in Directory.EnumerateFiles(s))
+            {
+                File.Move(z, FilePath + z.Substring(z.LastIndexOf('\\') + 1));
+            }
+            Directory.Delete(s);
+        }
+    }
+    static public bool CheckAnswer(string InputPath, string OutputPath)
+    {
+        foreach (string s in Directory.EnumerateDirectories(InputPath))
+        {
+            string z = OutputPath + '\\' + s.Substring(s.LastIndexOf('\\') + 1);
+            if (!Directory.Exists(z))
+            {
+                Console.WriteLine("Directory " + s.Substring(s.LastIndexOf('\\') + 1) + " Should not exist");
+                return false;
+            }
+            SortedSet<string> set = new SortedSet<string>();
+            foreach (string ss in Directory.EnumerateFiles(s))
+            {
+                string zz = z + '\\' + ss.Substring(ss.LastIndexOf('\\') + 1);
+                if (!File.Exists(zz))
+                {
+                    Console.WriteLine("File " + ss.Substring(ss.LastIndexOf('\\') + 1) + " In Directory " + s.Substring(s.LastIndexOf('\\') + 1) + " Should not exist");
+                    return false;
+                }
+                set.Add(ss.Substring(ss.LastIndexOf('\\') + 1));
+            }
+            foreach (string zz in Directory.EnumerateFiles(z))
+            {
+                if (!set.Contains((zz.Substring(zz.LastIndexOf('\\') + 1))))
+                {
+                    Console.WriteLine("File " + zz.Substring(zz.LastIndexOf('\\') + 1) + " In Directory " + s.Substring(s.LastIndexOf('\\') + 1) + " Is Missing");
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

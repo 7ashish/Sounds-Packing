@@ -6,6 +6,6 @@ public class Pair<F, S> : IComparable<Pair<F, S>> where S : IComparable
     public S Second;
     public int CompareTo(Pair<F, S> other)
     {
-        return Second.CompareTo(other.Second) * -1;
+        return Second.CompareTo(other.Second)*-1;
     }
 }
