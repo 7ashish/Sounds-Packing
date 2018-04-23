@@ -32,11 +32,12 @@ static class FileOperations
             }
         }
     }
-    static public void CleanUp(string FilePath)
+    static public void CleanUp()
     {
+        string FilePath = DefaultPath;
         foreach (string s in Directory.EnumerateFiles(FilePath))
         {
-            if(s.Substring(s.Length - 3) == "mp3")
+            if(s.Substring(s.Length - 3) == "mp3" || s.Substring(s.Length - 3).ToLower() == "amr")
             {
                 return;
             }
